@@ -1,18 +1,19 @@
 Vagrant.configure(2) do |config|
 
-    vm_memory = ENV['VM_MEMORY'] || '8000'
-    vm_cpus = ENV['VM_CPUS'] || '4'
+    vm_memory = ENV['VM_MEMORY'] || '32000'
+    vm_cpus = ENV['VM_CPUS'] || '8'
 
     config.ssh.forward_agent = true
     config.vm.hostname = "ovntutorial"
     config.vm.network "forwarded_port", guest: 80, host: 8080
     ## or use: vagrant ssh -- -L 0.0.0.0:8080:localhost:80
 
-    config.vm.network "private_network", ip: "192.168.51.10"
-    ## config.vm.network "public_network",
-    ##                  :dev => "bridge0",
-    ##                  :mode => "bridge",
-    ##                  :type => "bridge"
+    ## config.vm.network "private_network", ip: "192.168.51.10"
+    config.vm.network "public_network",
+                      ip: "10.19.41.200",
+                      :dev => "br0",
+                      :mode => "bridge",
+                      :type => "bridge"
     config.vm.box = "centos/7"
     config.vm.synced_folder "#{ENV['PWD']}", "/vagrant", sshfs_opts_append: "-o nonempty", disabled: false, type: "sshfs"
 
@@ -21,6 +22,7 @@ Vagrant.configure(2) do |config|
         lb.memory = vm_memory
         lb.cpus = vm_cpus
         lb.suspend_mode = 'managedsave'
+        lb.storage_pool_name = 'images'
     end
 
     config.vm.provision :shell do |shell|
