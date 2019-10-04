@@ -22,6 +22,18 @@ Vagrant.configure(2) do |config|
         lb.cpus = vm_cpus
         lb.suspend_mode = 'managedsave'
     end
+    config.vm.provider "virtualbox" do |vb|
+       vb.memory = vm_memory
+       vb.cpus = vm_cpus
+       vb.customize ["modifyvm", :id, "--nested-hw-virt", "on"]
+       vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+       vb.customize ["modifyvm", :id, "--nictype2", "virtio"]
+       vb.customize ['modifyvm', :id, "--nicpromisc2", "allow-all"]
+       vb.customize [
+           "guestproperty", "set", :id,
+           "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000
+          ]
+    end
 
     config.vm.provision :shell do |shell|
         shell.privileged = true
