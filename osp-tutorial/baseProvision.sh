@@ -4,7 +4,8 @@
 # set -o xtrace
 set -o errexit
 
-[ -e /dev/kvm ] || { echo "PROBLEM, you need to ensure nesting is enabled"; exit 1; }
+# commented out the line below, because qemu in virtual box will never make it
+## [ -e /dev/kvm ] || { echo "PROBLEM, you need to ensure nesting is enabled"; exit 1; }
 
 yum install -y git emacs wget
 
