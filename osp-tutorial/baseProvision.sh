@@ -11,3 +11,4 @@ set -o errexit
 apt-get update
 apt install -y git emacs wget
 apt install -y vim telnet tmate
+apt install -y python3-dev
