@@ -1,6 +1,6 @@
 Vagrant.configure(2) do |config|
 
-    vm_memory = ENV['VM_MEMORY'] || '8000'
+    vm_memory = ENV['VM_MEMORY'] || '6600'
     vm_cpus = ENV['VM_CPUS'] || '4'
 
     config.ssh.forward_agent = true
@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
     ##                  :dev => "bridge0",
     ##                  :mode => "bridge",
     ##                  :type => "bridge"
-    config.vm.box = "ubuntu/bionic64"
+    config.vm.box = "centos/7"
     config.vm.synced_folder "#{ENV['PWD']}", "/vagrant", sshfs_opts_append: "-o nonempty", disabled: false, type: "sshfs"
 
     config.vm.provider 'libvirt' do |lb|
